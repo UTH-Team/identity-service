@@ -1,9 +1,11 @@
 server:
-  port: 8080
+  port: 8888
   servlet:
     context-path: /identity
 
 spring:
+  application:
+    name: identity
   datasource:
     url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/identity_service}
     driverClassName: "com.mysql.cj.jdbc.Driver"
@@ -18,3 +20,13 @@ jwt:
   signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
   valid-duration: 3600 # in second
   refreshable-duration: 36000 # in seconds
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ # Địa chỉ Eureka Server
+    register-with-eureka: true # Đăng ký service với Eureka
+    fetch-registry: true # Lấy registry từ Eureka
+  instance:
+    prefer-ip-address: true # Sử dụng IP address để đăng ký
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}} # Định danh instance
